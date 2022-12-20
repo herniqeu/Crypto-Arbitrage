@@ -1,43 +1,42 @@
+#!/usr/bin/env python3
 
-# import logging
 import threading
-import json
-from env import api_key, api_key_testnet, api_secret, api_secret_testnet
-from binance.spot import Spot as Client
+import logging
 from binance.lib.utils import config_logging
+from binance.websocket.spot.websocket_client import SpotWebsocketClient as Client
 from binance.error import ClientError
 
 # config_logging(logging, logging.DEBUG)
 
 
-class Cancel(threading.Thread):
-    def __init__(self, url, orderbook, symbol, clientOrderId):
+class Chain(threading.Thread):
+    def __init__(self, url, orderbook, lock):
         super().__init__()
 
+        def process_updates(message):
+            with lock: 
+                data = message.copy()
+                data = len(list(data.keys()))
+                if data >= 5:
+                    orderbook[message["s"]] = {"bid": float(
+                    message["b"]), "ask": float(message["a"])}
+
+
+        # my_client = Client(stream_url=url)
+            # my_client = Client()
+        # my_client.start()
+        # my_client.book_ticker(
+        #         id=1,
+        #         callback=process_updates,
+        #         symbol="BTCUSDT")
+                # logging.info(response)
+
+
         try:
-
-            # with lock:
-            key = api_key_testnet
-
-            secret = api_secret_testnet
-
-            url = f"https://{url}"
-
-            client = Client(key, secret, base_url=url)
-
-            response = client.cancel_order(
-                symbol, origClientOrderId=clientOrderId)
-
-            # orderbook[response['origClientOrderId']] = {
-            #     "symbol": response["symbol"], "status": response['status'],
-            # }
-            orderbook[response['origClientOrderId']] = {"symbol": response["symbol"], "side": response["side"], "price": response["price"],
-                                                        "quantity": response["origQty"], "orderId": response["orderId"], "type": response["type"],
-                                                        "timeInForce": response["timeInForce"], "status": response['status']
-                                                        }
-            with open("websocket/project2/cancel_order.json", 'w', encoding='utf-8') as f:
-                json.dump(orderbook, f, ensure_ascii=False, indent=2)
-            # logging.info(response)
+            my_client = Client(stream_url=url)
+            my_client.start()
+            print(f'Connected to Binance')
+            my_client.book_ticker(id=1,callback=process_updates)
         except ClientError as error:
             # logging.error(
             #     "Found error. status: {}, error code: {}, error message: {}".format(
@@ -49,4 +48,6 @@ class Cancel(threading.Thread):
                     error.status_code, error.error_code, error.error_message
                 )
             )
-# {'symbol': 'BTCUSDT', 'origClientOrderId': 'trxXLSFk3ZCyv11RlrxgkV', 'orderId': 4359831, 'orderListId': -1, 'clientOrderId': '7TKHWRUCfuGck0BvqGXkut', 'price': '20450.12000000', 'origQty': '0.00212000', 'executedQty': '0.00000000', 'cummulativeQuoteQty': '0.00000000', 'status': 'CANCELED', 'timeInForce': 'GTC', 'type': 'LIMIT', 'side': 'SELL'}
+            my_client.stop()
+            print(f'Close to Binance\n')
+

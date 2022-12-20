@@ -1,53 +1,8482 @@
-#!/usr/bin/env python3
-
-import threading
-import logging
-from binance.lib.utils import config_logging
-from binance.websocket.spot.websocket_client import SpotWebsocketClient as Client
-from binance.error import ClientError
-
-# config_logging(logging, logging.DEBUG)
-
-
-class Chain(threading.Thread):
-    def __init__(self, url, orderbook, lock):
-        super().__init__()
-
-        def process_updates(message):
-            with lock: 
-                data = message.copy()
-                data = len(list(data.keys()))
-                if data >= 5:
-                    orderbook[message["s"]] = {"bid": float(
-                    message["b"]), "ask": float(message["a"])}
-
-
-        # my_client = Client(stream_url=url)
-            # my_client = Client()
-        # my_client.start()
-        # my_client.book_ticker(
-        #         id=1,
-        #         callback=process_updates,
-        #         symbol="BTCUSDT")
-                # logging.info(response)
-
-
-        try:
-            my_client = Client(stream_url=url)
-            my_client.start()
-            print(f'Connected to Binance')
-            my_client.book_ticker(id=1,callback=process_updates)
-        except ClientError as error:
-            # logging.error(
-            #     "Found error. status: {}, error code: {}, error message: {}".format(
-            #         error.status_code, error.error_code, error.error_message
-            #     )
-            # )
-            print(
-                "Found error. status: {}, error code: {}, error message: {}".format(
-                    error.status_code, error.error_code, error.error_message
-                )
-            )
-            my_client.stop()
-            print(f'Close to Binance\n')
-
+{
+  "ETHBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00010000"
+  },
+  "LTCBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "BNBBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "NEOBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "QTUMETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "EOSETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "SNTETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BNTETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "BCCBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "GASBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "BNBETH": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "BTCUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "HSRBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "OAXETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "DNTETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "MCOETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "ICNETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "MCOBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "WTCBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "WTCETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "LRCBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "LRCETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "QTUMBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "YOYOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "OMGBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "OMGETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "ZRXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ZRXETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "STRATBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "STRATETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "SNGLSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SNGLSETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BQXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BQXETH": {
+    "tickSize": "10.00000000",
+    "stepSize": "10.00000000"
+  },
+  "KNCBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "KNCETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "FUNBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "FUNETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SNMBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SNMETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NEOETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "IOTABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "IOTAETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "LINKBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "LINKETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "XVGBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "XVGETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SALTBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "SALTETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "MDABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "MDAETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "MTLBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "MTLETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "SUBBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SUBETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "EOSBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "SNTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ETCETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "ETCBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "MTHBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "MTHETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ENGBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ENGETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "DNTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ZECBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "ZECETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "BNTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "ASTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ASTETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "DASHBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "DASHETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "OAXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ICNBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BTGBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "BTGETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "EVXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "EVXETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "REQBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "REQETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "VIBBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "VIBETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "HSRETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "TRXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TRXETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "POWRBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "POWRETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "ARKBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "ARKETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "YOYOETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "XRPBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "XRPETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "MODBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "MODETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "ENJBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "ENJETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "STORJBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "STORJETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "BNBUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "VENBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "YOYOBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "POWRBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "VENBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "VENETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "KMDBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "KMDETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "NULSBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "RCNBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "RCNETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "RCNBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "NULSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NULSETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "RDNBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "RDNETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "RDNBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "XMRBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "XMRETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "DLTBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "WTCBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "DLTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "DLTETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "AMBBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "AMBETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "AMBBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "BCCETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "BCCUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BCCBNB": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BATBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BATETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "BATBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "BCPTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BCPTETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BCPTBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ARNBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ARNETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "GVTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "GVTETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "CDTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CDTETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "GXSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "GXSETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "NEOUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "NEOBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "POEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "POEETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "QSPBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "QSPETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "QSPBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "BTSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BTSETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BTSBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "XZCBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "XZCETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "XZCBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "LSKBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "LSKETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "LSKBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "TNTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TNTETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "FUELBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "FUELETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "MANABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "MANAETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "BCDBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "BCDETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "DGDBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "DGDETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "IOTABNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ADXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ADXETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "ADXBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ADABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "ADAETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "PPTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "PPTETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "CMTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CMTETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CMTBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "XLMBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "XLMETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "XLMBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "CNDBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CNDETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CNDBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "LENDBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "LENDETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "WABIBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "WABIETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "WABIBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "LTCETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "LTCUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "LTCBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "TNBBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TNBETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "WAVESBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "WAVESETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "WAVESBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "GTOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "GTOETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "GTOBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ICXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ICXETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "ICXBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "OSTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "OSTETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "OSTBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "ELFBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ELFETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "AIONBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "AIONETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "AIONBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "NEBLBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "NEBLBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BRDBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BRDETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BRDBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "MCOBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "EDOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "EDOETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "WINGSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "WINGSETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "NAVBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NAVETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "NAVBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "LUNBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "LUNETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "TRIGBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "TRIGETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "TRIGBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "APPCBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "APPCETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "APPCBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "VIBEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "VIBEETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "RLCBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "RLCETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "RLCBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "INSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "INSETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "PIVXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "PIVXBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "IOSTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "IOSTETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CHATBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CHATETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "STEEMBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "STEEMETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "STEEMBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "NANOBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "NANOETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "NANOBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "VIABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "VIAETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "VIABNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BLZBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BLZETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BLZBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "AEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "AEETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "AEBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "RPXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "RPXETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "RPXBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "NCASHBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NCASHETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NCASHBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "POABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "POAETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "POABNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ZILBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ZILETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ZILBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "ONTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ONTETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "ONTBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "STORMBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "STORMETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "STORMBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "QTUMBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "QTUMUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "XEMBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "XEMETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "XEMBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "WANBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "WANETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "WANBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "WPRBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "WPRETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "QLCBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "QLCETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SYSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SYSETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SYSBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "QLCBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "GRSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "GRSETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ADAUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "ADABNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "CLOAKBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "CLOAKETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "GNTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "GNTETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "GNTBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "LOOMBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "LOOMETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "LOOMBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "XRPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BCNBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BCNETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BCNBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "REPBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "REPBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "BTCTUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "TUSDBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ETHTUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "TUSDETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TUSDBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ZENBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "ZENETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "ZENBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "SKYBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "SKYETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "SKYBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "EOSUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "EOSBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "CVCBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CVCETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "CVCBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "THETABTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "THETAETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "THETABNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "XRPBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "TUSDUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "IOTAUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "XLMUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "IOTXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "IOTXETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "QKCBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "QKCETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "AGIBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "AGIETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "AGIBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "NXSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NXSETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "NXSBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ENJBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "DATABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "DATAETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ONTUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "TRXBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "TRXUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ETCUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ETCBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "ICXUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "SCBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SCETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NPXSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NPXSETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "VENUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "KEYBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "KEYETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NASBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NASETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NASBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "MFTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "MFTETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "MFTBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "DENTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "DENTETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ARDRBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ARDRETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ARDRBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "NULSUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "HOTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "HOTETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "VETBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "VETETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "VETUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "VETBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "DOCKBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "DOCKETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "POLYBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "POLYBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "PHXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "PHXETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "PHXBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "HCBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "HCETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "GOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "GOBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "PAXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "PAXBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "PAXUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "PAXETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "RVNBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "DCRBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "DCRBNB": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "USDCBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "MITHBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "MITHBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "BCHABCBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "BCHSVBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "BCHABCUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BCHSVUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BNBPAX": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "BTCPAX": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHPAX": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "XRPPAX": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "EOSPAX": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "XLMPAX": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "RENBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "RENBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "BNBTUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "XRPTUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "EOSTUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "XLMTUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BNBUSDC": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "BTCUSDC": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHUSDC": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "XRPUSDC": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "EOSUSDC": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "XLMUSDC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "USDCUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ADATUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "TRXTUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "NEOTUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "TRXXRP": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "XZCXRP": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "PAXTUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "USDCTUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "USDCPAX": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "LINKUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "LINKTUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "LINKPAX": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "LINKUSDC": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "WAVESUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "WAVESTUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "WAVESPAX": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "WAVESUSDC": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "BCHABCTUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BCHABCPAX": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BCHABCUSDC": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BCHSVTUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BCHSVPAX": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BCHSVUSDC": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "LTCTUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "LTCPAX": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "LTCUSDC": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "TRXPAX": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "TRXUSDC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BTTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BTTBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BTTUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "BNBUSDS": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "BTCUSDS": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00000100"
+  },
+  "USDSUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "USDSPAX": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "USDSTUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "USDSUSDC": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "BTTPAX": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "BTTTUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "BTTUSDC": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ONGBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ONGBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ONGUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "HOTBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "HOTUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ZILUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ZRXBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ZRXUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "FETBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "FETBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "FETUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BATUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "XMRBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "XMRUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "ZECBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "ZECUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "ZECPAX": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ZECTUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ZECUSDC": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "IOSTUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "CELRBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CELRBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CELRUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ADAPAX": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ADAUSDC": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "NEOPAX": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "NEOUSDC": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "DASHBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "DASHUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "NANOUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "OMGBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "OMGUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "THETAUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "ENJUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "MITHUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "MATICBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "MATICBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "MATICUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "ATOMBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "ATOMBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "ATOMUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "ATOMUSDC": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "ATOMPAX": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "ATOMTUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "ETCUSDC": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "ETCPAX": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "ETCTUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "BATUSDC": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "BATPAX": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "BATTUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "PHBBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "PHBBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "PHBUSDC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "PHBTUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "PHBPAX": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "TFUELBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "TFUELBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TFUELUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "TFUELUSDC": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "TFUELTUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "TFUELPAX": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ONEBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "ONEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ONEUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ONETUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ONEPAX": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ONEUSDC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "FTMBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "FTMBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "FTMUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "FTMTUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "FTMPAX": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "FTMUSDC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BTCBBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "BCPTTUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BCPTPAX": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BCPTUSDC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ALGOBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ALGOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ALGOUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ALGOTUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "ALGOPAX": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "ALGOUSDC": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "USDSBUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "USDSBUSDS": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "GTOUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "GTOPAX": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "GTOTUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "GTOUSDC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ERDBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ERDBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ERDUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ERDPAX": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "ERDUSDC": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "DOGEBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "DOGEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "DOGEUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "DOGEPAX": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "DOGEUSDC": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "DUSKBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "DUSKBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "DUSKUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DUSKUSDC": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "DUSKPAX": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "BGBPUSDC": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "ANKRBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "ANKRBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ANKRUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ANKRTUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ANKRPAX": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ANKRUSDC": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ONTPAX": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "ONTUSDC": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "WINBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "WINBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "WINUSDT": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "WINUSDC": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "COSBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "COSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "COSUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "TUSDBTUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "NPXSUSDT": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "NPXSUSDC": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "COCOSBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "COCOSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "COCOSUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "MTLUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "TOMOBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "TOMOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "TOMOUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "TOMOUSDC": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "PERLBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "PERLBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "PERLUSDC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "PERLUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "DENTUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "MFTUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "KEYUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "STORMUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "DOCKUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "WANUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "FUNUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "CVCUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BTTTRX": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "WINTRX": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "CHZBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "CHZBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CHZUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BANDBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BANDBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "BANDUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "BNBBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "BTCBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BUSDUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BEAMBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BEAMBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BEAMUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "XTZBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "XTZBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "XTZUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "RENUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "RVNUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "HCUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "HBARBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "HBARBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "HBARUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "NKNBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "NKNBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NKNUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "XRPBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ETHBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "BCHABCBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "LTCBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "LINKBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "ETCBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "STXBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "STXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "STXUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "KAVABNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "KAVABTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "KAVAUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "BUSDNGN": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BNBNGN": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00100000"
+  },
+  "BTCNGN": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "ARPABNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "ARPABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ARPAUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "TRXBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "EOSBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "IOTXUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "RLCUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "MCOUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "XLMBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ADABUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "CTXCBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "CTXCBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CTXCUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BCHBNB": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "BCHBTC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "BCHUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "BCHUSDC": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "BCHTUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "BCHPAX": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BCHBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "BTCRUB": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHRUB": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00010000"
+  },
+  "XRPRUB": {
+    "tickSize": "0.01000000",
+    "stepSize": "1.00000000"
+  },
+  "BNBRUB": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "TROYBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TROYBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TROYUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "BUSDRUB": {
+    "tickSize": "0.01000000",
+    "stepSize": "1.00000000"
+  },
+  "QTUMBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "VETBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "VITEBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "VITEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "VITEUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "FTTBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "FTTBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "FTTUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BTCTRY": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "BNBTRY": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00100000"
+  },
+  "BUSDTRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "1.00000000"
+  },
+  "ETHTRY": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00010000"
+  },
+  "XRPTRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "1.00000000"
+  },
+  "USDTTRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "1.00000000"
+  },
+  "USDTRUB": {
+    "tickSize": "0.01000000",
+    "stepSize": "1.00000000"
+  },
+  "BTCEUR": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHEUR": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "BNBEUR": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "XRPEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "EURBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "EURUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "OGNBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "OGNBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "OGNUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DREPBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "DREPBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "DREPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BULLUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00000100"
+  },
+  "BULLBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00000100"
+  },
+  "BEARUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BEARBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHBULLUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00000100"
+  },
+  "ETHBULLBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00000100"
+  },
+  "ETHBEARUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHBEARBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "TCTBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "TCTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TCTUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "WRXBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "WRXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "WRXUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "ICXBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "BTSUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BTSBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "LSKUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "BNTUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "BNTBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "LTOBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "LTOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "LTOUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ATOMBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "DASHBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "NEOBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "WAVESBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "XTZBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "EOSBULLUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "EOSBULLBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "EOSBEARUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "EOSBEARBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "XRPBULLUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "XRPBULLBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "XRPBEARUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "XRPBEARBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BATBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ENJBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "NANOBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "ONTBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "RVNBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "STRATBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "STRATBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "STRATUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "AIONBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "AIONUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "MBLBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "MBLBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "MBLUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "COTIBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "COTIBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "COTIUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ALGOBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BTTBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "TOMOBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "XMRBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "ZECBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "BNBBULLUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BNBBULLBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BNBBEARUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BNBBEARBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "STPTBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "STPTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "STPTUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BTCZAR": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHZAR": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00010000"
+  },
+  "BNBZAR": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "USDTZAR": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "BUSDZAR": {
+    "tickSize": "0.01000000",
+    "stepSize": "1.00000000"
+  },
+  "BTCBKRW": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00000100"
+  },
+  "ETHBKRW": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "BNBBKRW": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00100000"
+  },
+  "WTCUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DATABUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "DATAUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "XZCUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "SOLBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "SOLBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "SOLUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "SOLBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BTCIDRT": {
+    "tickSize": "1.00",
+    "stepSize": "0.00001000"
+  },
+  "BNBIDRT": {
+    "tickSize": "1.00",
+    "stepSize": "0.00100000"
+  },
+  "USDTIDRT": {
+    "tickSize": "1.00",
+    "stepSize": "1.00000000"
+  },
+  "BUSDIDRT": {
+    "tickSize": "1.00",
+    "stepSize": "0.01000000"
+  },
+  "CTSIBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CTSIUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "CTSIBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "CTSIBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "HIVEBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "HIVEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "HIVEUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "CHRBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "CHRBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CHRUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BTCUPUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "BTCDOWNUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "GXSUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ARDRUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ERDBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "LENDUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "HBARBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "MATICBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "WRXBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "ZILBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "MDTBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "MDTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "MDTUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "STMXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "STMXETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "STMXUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "KNCBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "KNCUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "REPBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "REPUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "LRCBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "LRCUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "IQBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "IQBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "PNTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "PNTUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BTCGBP": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHGBP": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "XRPGBP": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BNBGBP": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "GBPBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "DGBBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "DGBBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BTCUAH": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "USDTUAH": {
+    "tickSize": "0.01000000",
+    "stepSize": "1.00000000"
+  },
+  "COMPBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "COMPBNB": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "COMPBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "COMPUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "BTCBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.00001000"
+  },
+  "ETHBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.00010000"
+  },
+  "BNBBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.00100000"
+  },
+  "BUSDBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.10000000"
+  },
+  "USDTBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.10000000"
+  },
+  "BKRWUSDT": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "BKRWBUSD": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "SCUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "ZENUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "SXPBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "SXPBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "SXPBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "SNXBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "SNXBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "SNXBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SNXUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "ETHUPUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "ETHDOWNUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "ADAUPUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "ADADOWNUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "LINKUPUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "LINKDOWNUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "VTHOBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "VTHOBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "VTHOUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "DCRBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "DGBUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "GBPUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "STORJBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SXPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "IRISBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "IRISBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "IRISBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "MKRBNB": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00010000"
+  },
+  "MKRBTC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00010000"
+  },
+  "MKRUSDT": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00010000"
+  },
+  "MKRBUSD": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00010000"
+  },
+  "DAIBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "DAIBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "DAIUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "DAIBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "RUNEBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "RUNEBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "RUNEBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "MANABUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DOGEBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "LENDBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "ZRXBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DCRUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "STORJUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "XRPBKRW": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "ADABKRW": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "BTCAUD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHAUD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "AUDBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "FIOBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "FIOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "FIOBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BNBUPUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BNBDOWNUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "XTZUPUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "XTZDOWNUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "AVABNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "AVABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "AVABUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "USDTBKRW": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "BUSDBKRW": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "IOTABUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "MANAUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "XRPAUD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BNBAUD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "AUDUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BALBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "BALBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "BALBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "YFIBNB": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "YFIBTC": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00001000"
+  },
+  "YFIBUSD": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "YFIUSDT": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "BLZBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "KMDBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "BALUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "BLZUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "IRISUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "KMDUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BTCDAI": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHDAI": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "BNBDAI": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "USDTDAI": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "BUSDDAI": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "JSTBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "JSTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "JSTBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "JSTUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "SRMBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "SRMBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "SRMBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SRMUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "ANTBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ANTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "ANTBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "ANTUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "CRVBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "CRVBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "CRVBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "CRVUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SANDBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "SANDBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SANDUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SANDBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "OCEANBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "OCEANBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "OCEANBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "OCEANUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "NMRBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "NMRBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "NMRUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "DOTBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "DOTBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "DOTBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "DOTUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "LUNABNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "LUNABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "LUNABUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "LUNAUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "IDEXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "IDEXBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "RSRBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "RSRBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "RSRBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "RSRUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "PAXGBNB": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00010000"
+  },
+  "PAXGBTC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00010000"
+  },
+  "PAXGBUSD": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00010000"
+  },
+  "PAXGUSDT": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00010000"
+  },
+  "WNXMBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "WNXMBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "WNXMBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "WNXMUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "TRBBNB": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "TRBBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "TRBBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "TRBUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ETHNGN": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "DOTBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.01000000"
+  },
+  "LINKAUD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "SXPAUD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "BZRXBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BZRXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BZRXBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BZRXUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "WBTCBTC": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00001000"
+  },
+  "WBTCETH": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "SUSHIBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "SUSHIBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "SUSHIBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SUSHIUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "YFIIBNB": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "YFIIBTC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00010000"
+  },
+  "YFIIBUSD": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00010000"
+  },
+  "YFIIUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00010000"
+  },
+  "KSMBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "KSMBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "KSMBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "KSMUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "EGLDBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "EGLDBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "EGLDBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "EGLDUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "DIABNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "DIABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "DIABUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "DIAUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "RUNEUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "FIOUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "UMABTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "UMAUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "EOSUPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "EOSDOWNUSDT": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "TRXUPUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "TRXDOWNUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "XRPUPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "XRPDOWNUSDT": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "DOTUPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "DOTDOWNUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "SRMBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.00100000"
+  },
+  "ONEBIDR": {
+    "tickSize": "0.01",
+    "stepSize": "1.00000000"
+  },
+  "LINKTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.01000000"
+  },
+  "USDTNGN": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.10000000"
+  },
+  "BELBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "BELBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "BELBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "BELUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "WINGBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "WINGBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "SWRVBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "SWRVBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "WINGBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "WINGUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "LTCUPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "LTCDOWNUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "LENDBKRW": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "SXPEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "CREAMBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "CREAMBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "UNIBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "UNIBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "UNIBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "UNIUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "NBSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NBSUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "OXTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "OXTUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SUNBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "SUNUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "AVAXBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "AVAXBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "AVAXBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "AVAXUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "HNTBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "HNTUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BAKEBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "BURGERBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "SXPBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.10000000"
+  },
+  "LINKBKRW": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "FLMBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "FLMBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "FLMBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "FLMUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SCRTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "SCRTETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "CAKEBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "CAKEBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "SPARTABNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "UNIUPUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "UNIDOWNUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "ORNBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "ORNUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "TRXNGN": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "SXPTRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "UTKBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "UTKUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "XVSBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "XVSBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "XVSBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "XVSUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ALPHABNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ALPHABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ALPHABUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ALPHAUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "VIDTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "VIDTBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "AAVEBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "BTCBRL": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "USDTBRL": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "AAVEBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "AAVEETH": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "AAVEBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "AAVEUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "AAVEBKRW": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00100000"
+  },
+  "NEARBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "NEARBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "NEARBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "NEARUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SXPUPUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "SXPDOWNUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "DOTBKRW": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "SXPGBP": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "FILBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "FILBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "FILBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "FILUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "FILUPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "FILDOWNUSDT": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "YFIUPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "YFIDOWNUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "INJBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "INJBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "INJBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "INJUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "AERGOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "AERGOBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "LINKEUR": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "ONEBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "EASYETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "AUDIOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "AUDIOBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "AUDIOUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "CTKBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "CTKBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "CTKBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "CTKUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "BCHUPUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "BCHDOWNUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "BOTBTC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00010000"
+  },
+  "BOTBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHBRL": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "DOTEUR": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "AKROBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "AKROUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "KP3RBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "KP3RBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "AXSBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "AXSBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "AXSBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "AXSUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "HARDBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "HARDBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "HARDBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "HARDUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BNBBRL": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00100000"
+  },
+  "LTCEUR": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "RENBTCBTC": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00001000"
+  },
+  "RENBTCETH": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00001000"
+  },
+  "DNTBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DNTUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SLPETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ADAEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "LTCNGN": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "CVPETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "CVPBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "STRAXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "STRAXETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "STRAXBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "STRAXUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "FORBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "FORBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "UNFIBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "UNFIBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "UNFIBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "UNFIUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "FRONTETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "FRONTBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BCHABUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "ROSEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ROSEBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ROSEUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "AVAXTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.01000000"
+  },
+  "BUSDBRL": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "AVAUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SYSBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "XEMUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "HEGICETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "HEGICBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "AAVEUPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "AAVEDOWNUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "PROMBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "PROMBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "XRPBRL": {
+    "tickSize": "0.00100000",
+    "stepSize": "1.00000000"
+  },
+  "XRPNGN": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "SKLBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SKLBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "SKLUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "BCHEUR": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "YFIEUR": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "ZILBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "1.00000000"
+  },
+  "SUSDBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "SUSDETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "SUSDUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "COVERETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "COVERBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "GLMBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "GLMETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "GHSTETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "GHSTBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SUSHIUPUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "SUSHIDOWNUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "XLMUPUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "XLMDOWNUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "LINKBRL": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "LINKNGN": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "LTCRUB": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "TRXTRY": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "XLMEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DFETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "DFBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "GRTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "GRTETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "GRTUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "JUVBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "JUVBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "JUVUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "PSGBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "PSGBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "PSGUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BUSDBVND": {
+    "tickSize": "1.00",
+    "stepSize": "1.00000000"
+  },
+  "USDTBVND": {
+    "tickSize": "1.00",
+    "stepSize": "1.00000000"
+  },
+  "1INCHBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "1INCHUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "REEFBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "REEFUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "OGBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "OGUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "ATMBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "ATMUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ASRBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "ASRUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "CELOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "CELOUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "RIFBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "RIFUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "CHZTRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "1.00000000"
+  },
+  "XLMTRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "1.00000000"
+  },
+  "LINKGBP": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "GRTEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BTCSTBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "BTCSTBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BTCSTUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "TRUBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TRUBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "TRUUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DEXEETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "DEXEBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "EOSEUR": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "LTCBRL": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "USDCBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "TUSDBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "PAXBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "CKBBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CKBBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "CKBUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "TWTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TWTBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "TWTUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "FIROBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "FIROETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "FIROUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "BETHETH": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00010000"
+  },
+  "DOGEEUR": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "DOGETRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "1.00000000"
+  },
+  "DOGEAUD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "DOGEBRL": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DOTNGN": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "PROSETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "LITBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "LITBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "LITUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "BTCVAI": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BUSDVAI": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SFPBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SFPBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SFPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DOGEGBP": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "DOTTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.01000000"
+  },
+  "FXSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "FXSBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "DODOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "DODOBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "DODOUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "FRONTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "EASYBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "CAKEBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "CAKEUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "BAKEBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "UFTETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "UFTBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "1INCHBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "BANDBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "GRTBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "IOSTBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "OMGBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "REEFBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "ACMBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "ACMBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "ACMUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "AUCTIONBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "AUCTIONBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "PHABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "PHABUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DOTGBP": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ADATRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "ADABRL": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "ADAGBP": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "TVKBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TVKBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BADGERBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "BADGERBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BADGERUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "FISBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "FISBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "FISUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DOTBRL": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ADAAUD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "HOTTRY": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "EGLDEUR": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "OMBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "OMBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "OMUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "PONDBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "PONDBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "PONDUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "DEGOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "DEGOBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "DEGOUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "AVAXEUR": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BTTTRY": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "CHZBRL": {
+    "tickSize": "0.00100000",
+    "stepSize": "1.00000000"
+  },
+  "UNIEUR": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ALICEBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "ALICEBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "ALICEUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "CHZBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "CHZEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "CHZGBP": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BIFIBNB": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "BIFIBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "LINABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "LINABUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "LINAUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "ADARUB": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "ENJBRL": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "ENJEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "MATICEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "NEOTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.01000000"
+  },
+  "PERPBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "PERPBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "PERPUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "RAMPBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "RAMPBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "RAMPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SUPERBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SUPERBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SUPERUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "CFXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "CFXBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "CFXUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ENJGBP": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "EOSTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "LTCGBP": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "LUNAEUR": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "RVNTRY": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "THETAEUR": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "XVGBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "EPSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "EPSBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "EPSUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "AUTOBTC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "AUTOBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "AUTOUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "TKOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "TKOBIDR": {
+    "tickSize": "0.01",
+    "stepSize": "0.10000000"
+  },
+  "TKOBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "TKOUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "PUNDIXETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "PUNDIXUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "BTTBRL": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BTTEUR": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "HOTEUR": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "WINEUR": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "TLMBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TLMBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "TLMUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "1INCHUPUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "1INCHDOWNUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "BTGBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BTGUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "HOTBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "BNBUAH": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00100000"
+  },
+  "ONTTRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "1.00000000"
+  },
+  "VETEUR": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "VETGBP": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "WINBRL": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "MIRBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "MIRBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "MIRUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BARBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "BARBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BARUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "FORTHBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "FORTHBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "FORTHUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "CAKEGBP": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "DOGERUB": {
+    "tickSize": "0.00100000",
+    "stepSize": "1.00000000"
+  },
+  "HOTBRL": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "WRXEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "EZBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "EZETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "BAKEUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "BURGERBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "BURGERUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SLPBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "SLPUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "TRXAUD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "TRXEUR": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "VETTRY": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "SHIBUSDT": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00"
+  },
+  "SHIBBUSD": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00"
+  },
+  "ICPBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "ICPBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "ICPBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ICPUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "SHIBEUR": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00"
+  },
+  "SHIBRUB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00"
+  },
+  "ETCEUR": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ETCBRL": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.01000000"
+  },
+  "DOGEBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "1.00000000"
+  },
+  "ARBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "ARBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "ARBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ARUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "POLSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "POLSBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "POLSBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "POLSUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "MDXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "MDXBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "MDXBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "MDXUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "MASKBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "MASKBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "MASKUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "LPTBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "LPTBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "LPTBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "LPTUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ETHUAH": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00010000"
+  },
+  "MATICBRL": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SOLEUR": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "SHIBBRL": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00"
+  },
+  "AGIXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ICPEUR": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "MATICGBP": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "SHIBTRY": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00"
+  },
+  "MATICBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.10000000"
+  },
+  "MATICRUB": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "NUBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "NUBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "NUBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "NUUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "XVGUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "RLCBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "CELRBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "ATMBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ZENBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "FTMBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "THETABUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "WINBUSD": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "KAVABUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "XEMBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ATABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ATABNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ATABUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ATAUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "GTCBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "GTCBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "GTCBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "GTCUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "TORNBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "TORNBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "TORNBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "TORNUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "MATICTRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "ETCGBP": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "SOLGBP": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BAKEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "COTIBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "KEEPBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "KEEPBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "KEEPBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "KEEPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SOLTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.01000000"
+  },
+  "RUNEGBP": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SOLBRL": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.01000000"
+  },
+  "SCBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "CHRBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "STMXBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "HNTBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "FTTBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "DOCKBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "ADABIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.10000000"
+  },
+  "ERNBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "ERNBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "ERNUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "KLAYBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "KLAYBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "KLAYBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "KLAYUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "RUNEEUR": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "MATICAUD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "DOTRUB": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.01000000"
+  },
+  "UTKBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "IOTXBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "PHAUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SOLRUB": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.01000000"
+  },
+  "RUNEAUD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00000100"
+  },
+  "BUSDUAH": {
+    "tickSize": "0.01000000",
+    "stepSize": "1.00000000"
+  },
+  "BONDBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "BONDBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "BONDBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "BONDUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "MLNBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "MLNBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "MLNBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "MLNUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "GRTTRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "1.00000000"
+  },
+  "CAKEBRL": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ICPRUB": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.01000000"
+  },
+  "DOTAUD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "AAVEBRL": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00100000"
+  },
+  "EOSAUD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "DEXEUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "LTOBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ADXBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "QUICKBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "QUICKBNB": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "QUICKBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "C98USDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "C98BUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "C98BNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "C98BTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "CLVBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "CLVBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "CLVBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "CLVUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "QNTBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "QNTBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "QNTBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "QNTUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "FLOWBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "FLOWBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "FLOWBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "FLOWUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "XECBUSD": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00"
+  },
+  "AXSBRL": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.01000000"
+  },
+  "AXSAUD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "TVKUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "MINABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "MINABNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "MINABUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "MINAUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "RAYBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "RAYBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "RAYUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "FARMBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "FARMBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "FARMBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "FARMUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "ALPACABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "ALPACABNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "ALPACABUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "ALPACAUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "TLMTRY": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "QUICKUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "ORNBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "MBOXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "MBOXBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "MBOXBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "MBOXUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "VGXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "VGXETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "FORUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "REQUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "GHSTUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "TRURUB": {
+    "tickSize": "0.01000000",
+    "stepSize": "1.00000000"
+  },
+  "FISBRL": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "WAXPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "WAXPBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "WAXPBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "WAXPBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TRIBEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "TRIBEBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "TRIBEBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "TRIBEUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "GNOUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "GNOBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "GNOBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "GNOBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "ARPATRY": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "PROMBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "MTLBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "OGNBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "XECUSDT": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00"
+  },
+  "C98BRL": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SOLAUD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "XRPBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.10000000"
+  },
+  "POLYBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "ELFUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "DYDXUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "DYDXBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "DYDXBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "DYDXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "ELFBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "POLYUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "IDEXUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "VIDTUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "SOLBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.00010000"
+  },
+  "BTCUSDP": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHUSDP": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "BNBUSDP": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "USDPBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "USDPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "GALAUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "GALABUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "GALABNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "GALABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "FTMBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.10000000"
+  },
+  "ALGOBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.01000000"
+  },
+  "CAKEAUD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "KSMAUD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "WAVESRUB": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "SUNBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "ILVUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "ILVBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "ILVBNB": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "ILVBTC": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "RENBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "YGGUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "YGGBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "YGGBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "YGGBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "STXBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SYSUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DFUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SOLUSDC": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ARPARUB": {
+    "tickSize": "0.00100000",
+    "stepSize": "1.00000000"
+  },
+  "LTCUAH": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00100000"
+  },
+  "FETBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ARPABUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "LSKBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "AVAXBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.01000000"
+  },
+  "ALICEBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.01000000"
+  },
+  "FIDAUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "FIDABUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "FIDABNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "FIDABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "DENTBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "FRONTUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "CVPUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "AGLDBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "AGLDBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "AGLDBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "AGLDUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "RADBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "RADBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "RADBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "RADUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "UNIAUD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "HIVEBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "STPTBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "BETABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BETABNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "BETABUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "BETAUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "SHIBAUD": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00"
+  },
+  "RAREBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "RAREBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "RAREBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "RAREUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "AVAXBRL": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.01000000"
+  },
+  "AVAXAUD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "LUNAAUD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "TROYBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "AXSETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "FTMETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "SOLETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "SSVBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "SSVETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "LAZIOTRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "LAZIOEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "LAZIOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "LAZIOUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "CHESSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "CHESSBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "CHESSBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "CHESSUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "FTMAUD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "FTMBRL": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SCRTBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "ADXUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "AUCTIONUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "CELOBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "FTMRUB": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "NUAUD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "NURUB": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "REEFTRY": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "REEFBIDR": {
+    "tickSize": "0.10",
+    "stepSize": "1.00000000"
+  },
+  "SHIBDOGE": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00"
+  },
+  "DARUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "DARBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "DARBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "DARBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "BNXBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "BNXBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "BNXBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "BNXUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "RGTUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "RGTBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "RGTBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "RGTBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "LAZIOBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "OXTBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "MANATRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "ALGORUB": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "SHIBUAH": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00"
+  },
+  "LUNABIDR": {
+    "tickSize": "0.01",
+    "stepSize": "0.01000000"
+  },
+  "AUDUSDC": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "MOVRBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.00100000"
+  },
+  "MOVRBNB": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "MOVRBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "MOVRUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "CITYBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "CITYBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "CITYBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "CITYUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ENSBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "ENSBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "ENSBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ENSUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "SANDETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "DOTETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "MATICETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "ANKRBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "SANDTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "MANABRL": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "KP3RUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "QIUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "QIBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "QIBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "QIBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "PORTOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "PORTOUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "PORTOTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "PORTOEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "POWRUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "POWRBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "AVAXETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "SLPTRY": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "FISTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "LRCTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "CHRETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "FISBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.10000000"
+  },
+  "VGXUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "GALAETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "JASMYUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "JASMYBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "JASMYBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "JASMYBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "AMPBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "AMPBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "AMPBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "AMPUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "PLABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "PLABNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "PLABUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "PLAUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "PYRBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.00100000"
+  },
+  "PYRBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "PYRUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "RNDRBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "RNDRUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "RNDRBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "ALCXBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00010000"
+  },
+  "ALCXBUSD": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00010000"
+  },
+  "ALCXUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00010000"
+  },
+  "SANTOSBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "SANTOSUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "SANTOSBRL": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "SANTOSTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "MCBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "MCBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "MCUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "BELTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "COCOSBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "DENTTRY": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "ENJTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "NEORUB": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00100000"
+  },
+  "SANDAUD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SLPBIDR": {
+    "tickSize": "0.10",
+    "stepSize": "1.00000000"
+  },
+  "ANYBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "ANYBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ANYUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BICOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "BICOBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "BICOUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "FLUXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "FLUXBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "FLUXUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "ALICETRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "FXSUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "GALABRL": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "GALATRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "LUNATRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "REQBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SANDBRL": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "MANABIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.01000000"
+  },
+  "SANDBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.01000000"
+  },
+  "VOXELBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "VOXELBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "VOXELBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "VOXELUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "COSBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "CTXCBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "FTMTRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "MANABNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "MINATRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "XTZTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "HIGHBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.00100000"
+  },
+  "HIGHBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "HIGHUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "CVXBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.00100000"
+  },
+  "CVXBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "CVXUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "PEOPLEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "PEOPLEBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "PEOPLEUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "OOKIBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "OOKIUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "COCOSTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "GXSBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "LINKBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "LUNAETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.00100000"
+  },
+  "MDTBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "NULSBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "SPELLBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SPELLUSDT": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "SPELLBUSD": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "USTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "USTBUSD": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "USTUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "JOEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "JOEBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "JOEUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "ATOMETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "DUSKBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "EGLDETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00010000"
+  },
+  "ICPETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "LUNABRL": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "LUNAUST": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "NEARETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "ROSEBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "VOXELETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "ALICEBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "ATOMTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "ETHUST": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "GALAAUD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "LRCBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "ONEETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "OOKIBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ACHBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ACHBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "ACHUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "IMXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "IMXBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "IMXUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "GLMRBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "GLMRBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "GLMRUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "ATOMBIDR": {
+    "tickSize": "1.00",
+    "stepSize": "0.00100000"
+  },
+  "DYDXETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "FARMETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00010000"
+  },
+  "FORBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "ICPTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "JASMYETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "LINABNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "OOKIETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "ROSEETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "UMABUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "UNIETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "XTZETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "LOKABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "LOKABNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "LOKABUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "LOKAUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "ATOMBRL": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "BNBUST": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "CRVETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "HIGHBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "NEARRUB": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "ROSETRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SCRTUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "API3BTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "API3BUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "API3USDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "BTTCUSDT": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.0"
+  },
+  "BTTCUSDC": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.0"
+  },
+  "BTTCTRY": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.0"
+  },
+  "ACABTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "ACABUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "ACAUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "ANCBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "ANCBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "ANCUSDT": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "BDOTDOT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.00100000"
+  },
+  "XNOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "XNOETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "XNOBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "XNOUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "COSTRY": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "KAVAETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "MCBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "ONETRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "WOOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "WOOBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "WOOBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "WOOUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "CELRETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "PEOPLEBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SLPBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SPELLBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "SPELLTRY": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "TFUELBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "AXSTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "DARTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "NEARTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "IDEXBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "ALPINEEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "ALPINETRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "ALPINEUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "ALPINEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "TUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "TBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "API3BNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "BETAETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "INJTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "TLMBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "1.00000000"
+  },
+  "ASTRBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "ASTRUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "API3TRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "GLMRBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "MBOXTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "GMTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "GMTBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "GMTBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "GMTUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "ANCBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "ATOMEUR": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "GALAEUR": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "KSMETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00010000"
+  },
+  "UMATRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.01000000"
+  },
+  "KDABTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "KDABUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "KDAUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "APEUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "APEBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "APEBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "ALPINEBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "LUNAGBP": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.01000000"
+  },
+  "NEAREUR": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "TWTTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "WAVESEUR": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "APEEUR": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "APEGBP": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "APETRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "BSWUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "BSWBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "BSWBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "APEBNB": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "GMTBRL": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "GMTETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "JASMYTRY": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "SANTOSBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "APEAUD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "BIFIUSDT": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "GMTEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "IMXBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "RUNEETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "AVAXGBP": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "MULTIBTC": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.00100000"
+  },
+  "MULTIBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "MULTIUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "APEETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "BSWETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.01000000"
+  },
+  "FILTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "FTMEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "GMTGBP": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "ZILTRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "GMTTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "WAVESTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "BTCUST": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "ASTRBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "ASTRETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "BSWTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "FTTETH": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.00100000"
+  },
+  "FUNBNB": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "PORTOBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "STEEMUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "ZILEUR": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "APEBRL": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "AUDIOTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "BTTCBUSD": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.0"
+  },
+  "GMTAUD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "MBLBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "MOBUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "MOBBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "MOBBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "NEXOUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "NEXOBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "NEXOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "REIUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "REIBNB": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "REIETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "GALUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "GALBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "GALBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "GALBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.00100000"
+  },
+  "JASMYEUR": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "KNCBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "SHIBGBP": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00"
+  },
+  "GALEUR": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.00100000"
+  },
+  "GALTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "LDOBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "LDOUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "LDOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "ENSTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "DAREUR": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "DARETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "ALGOETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "ALGOTRY": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "GALETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "EPXUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "EPXBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "RUNETRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "GALBRL": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "STEEMBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "CVCBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "REIBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "DREPBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "AKROBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "PUNDIXBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "LUNCBUSD": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "USTCBUSD": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "OPBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "OPBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "OPUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "OGBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "KEYBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "ASRBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "FIROBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "NKNBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "OPBNB": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.10000000"
+  },
+  "OPEUR": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "GTOBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "0.10000000"
+  },
+  "SNXETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "WBTCBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00001000"
+  },
+  "BELETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "LITETH": {
+    "tickSize": "0.00000010",
+    "stepSize": "0.10000000"
+  },
+  "LEVERUSDT": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "LEVERBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "BURGERETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "PEOPLEETH": {
+    "tickSize": "0.00000001",
+    "stepSize": "1.00000000"
+  },
+  "UNFIETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "BONDETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "STORJTRY": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.10000000"
+  },
+  "OPETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "ETCTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.00100000"
+  },
+  "WINGETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "FILETH": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.01000000"
+  },
+  "GLMBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "SSVBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "STGBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "STGBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "STGUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "ANKRTRY": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "ARKBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "BETHBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00010000"
+  },
+  "LOOMBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "SNMBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "AMBBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "LUNCUSDT": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "PHBBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "GASBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "NEBLBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "PROSBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "1.00000000"
+  },
+  "VIBBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "GMXBTC": {
+    "tickSize": "0.00000100",
+    "stepSize": "0.00100000"
+  },
+  "GMXBUSD": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "GMXUSDT": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.00100000"
+  },
+  "AGIXBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "NEBLUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.10000000"
+  },
+  "SNTBUSD": {
+    "tickSize": "0.00001000",
+    "stepSize": "1.00000000"
+  },
+  "POLYXBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.10000000"
+  },
+  "POLYXBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "POLYXUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.10000000"
+  },
+  "APTBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "APTUSDT": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "APTBUSD": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "BTCPLN": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00001000"
+  },
+  "ETHPLN": {
+    "tickSize": "1.00000000",
+    "stepSize": "0.00010000"
+  },
+  "BUSDPLN": {
+    "tickSize": "0.00100000",
+    "stepSize": "1.00000000"
+  },
+  "APTEUR": {
+    "tickSize": "0.00010000",
+    "stepSize": "0.01000000"
+  },
+  "APTTRY": {
+    "tickSize": "0.10000000",
+    "stepSize": "0.01000000"
+  },
+  "APTBRL": {
+    "tickSize": "0.01000000",
+    "stepSize": "0.01000000"
+  },
+  "QKCBUSD": {
+    "tickSize": "0.00000100",
+    "stepSize": "1.00000000"
+  },
+  "OSMOBTC": {
+    "tickSize": "0.00000001",
+    "stepSize": "0.01000000"
+  },
+  "OSMOUSDT": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  },
+  "OSMOBUSD": {
+    "tickSize": "0.00100000",
+    "stepSize": "0.01000000"
+  }
+}
