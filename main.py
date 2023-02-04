@@ -17,8 +17,6 @@ from user_data_test import Order
 from cancel_orders import Cancel
 import time
 
-
-
 client = Client(api_key, api_secret)
 
 test = {
@@ -1096,3 +1094,5 @@ if __name__ == "__main__":
 
     # thread.start_new_thread(binance, ())
     run(orderbooks, update, orderexec, symbolfilter, lock)
+
+#This code is under no management
